@@ -34,4 +34,46 @@ Getting the initial info out of the way, we can move to actually setting up the 
 ### Partitioning
 Partitioning is the process of creating partitions of a storage drive. If you do not have another drive to use, you must *dual-boot* your system. If looking to *dual-boot*, you must partition **PRIOR** to attempting the remainder sections. <br>
 
+##### What you need
++ Computer/laptop you wish to dual-boot or change OS
++ USB drive or equivalent storage device of 8-16GB
++ Download the image file (For Ubuntu, you can use this **[link](https://ubuntu.com/download/desktop)**)
+
+1. Open *Create and format hard drive partitions*.
+2. Shrink a pre-existing volume.
+    + Only do this is you do not have a new drive.
+3. Ensure your drive looks like this:
+
+[Disk-Management-image](../img/disk-management-after-shrink.jpg)
+
+4. You have now partitioned your storage drive to be used for a dual-boot. Congrats!
+
+### Setting up a boot drive
+Now that you have a partition for Ubuntu to install to, you need a drive to install from. That can be any external storage device, but must be at least 8-16GB. 
+<br>
+
+1. Install an image burning software, we have used **[Rufus](https://rufus.ie/en/)**.
+2. Insert the storage drive into your computer, then start **Rufus**.
+3. Now, select the image file (.iso) we want to use. This is the one we downloaded from Ubuntu above. 
+4. Select the drive you want to "burn" the image to. Make sure to select the external storage device. 
+5. After running Rufus, you now have a boot drive that can be used to install Ubuntu. Congrats!
+
+### Installing Ubuntu
+After completed the previous sections, you now have the means to install Ubuntu onto your device. Follow the next few steps on how to install Ubuntu. <br>
+
+1. Shutdown device.
+2. Insert boot drive.
+3. Turn on device.
+---
+**IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be pressing F12, F10, DEL while booting.
+---
+4. Select *install Ubuntu*.
+5. Follow all the steps that are required, such as, creating an account, setting timezone, setting partitions.
+    + If prompt with setting partitions for boot and filesystems, set boot for 24GB and the rest for the filesystem, however, this should not occur.
+6. Once you reach the end of these options, you will be given a loading screen where Ubuntu will *actually* install. Wait for this to complete.
+7. Congrats, when it's done installing, you have successfully dual-booted Windows OS and UBuntu 22.4.3 LTS.
+
+## Accessing Ubuntu and Windows
+With dual-booting, your BiOS must now manage 2 different boot drives, in 
+
 
