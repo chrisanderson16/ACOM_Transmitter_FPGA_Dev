@@ -23,6 +23,8 @@ With this being noted, the work for this project had been done on Ubuntu 22.4.3 
 
 Moving on to actual requirements for the software. As per Xilinx, it is recommended to have a minimum of 16GB of RAM with 100GB of storage. *However*, in practice, we have found that you require more than 256GB to actually install Xilinx suite products. Therefore, if your system does not contain these, can a powerful CPU, it is recommended to use the lab computers. For this, please see the internal supervisor. <br>
 
+---
+
 #### ALL STEPS REMAIN THE SAME, REGARDLESS OF DISTRIBUTION RELEASE
 
 ---
@@ -33,6 +35,12 @@ Getting the initial info out of the way, we can move to actually setting up the 
 
 ### Partitioning
 Partitioning is the process of creating partitions of a storage drive. If you do not have another drive to use, you must *dual-boot* your system. If looking to *dual-boot*, you must partition **PRIOR** to attempting the remainder sections. <br>
+
+---
+
+###### IMPORTANT: Another guide to setting up a dual-boot with Windows and Ubuntu can be found at [FreeCampCode](https://www.freecodecamp.org/news/how-to-dual-boot-any-linux-distribution-with-windows/)
+
+---
 
 ##### What you need
 + Computer/laptop you wish to dual-boot or change OS
@@ -67,7 +75,7 @@ After completed the previous sections, you now have the means to install Ubuntu 
 
 ---
 
-**IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be pressing F12, F10, DEL while booting.
+**IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be done by pressing F12 or F10 or DEL repeatedly while booting.
 
 ---
 
@@ -77,7 +85,18 @@ After completed the previous sections, you now have the means to install Ubuntu 
 6. Once you reach the end of these options, you will be given a loading screen where Ubuntu will *actually* install. Wait for this to complete.
 7. Congrats, when it's done installing, you have successfully dual-booted Windows OS and UBuntu 22.4.3 LTS.
 
-## Accessing Ubuntu and Windows
-With dual-booting, your BiOS must now manage 2 different boot drives, in 
+**Congrats**, you have not completed the dual-boot setup and installation process.
 
+### Accessing Ubuntu and Windows
+With dual-booting, your BiOS must now manage 2 different boot drives. In practice, when you install from scratch, whenever you turn on your device, it should prompt an option of booting Windows OS or Ubuntu OS. <br> <br>
+If this is **NOT** the case, you will need to open your BiOS each time you wish to boot Ubuntu and select the boot partition for Ubuntu.
+
+---
+
+## Setting up Ubuntu
+Now that you have a Linux distribution install and runs, we can now begin to prepare the system for actual use. This is primarily done by installing required libraries. <br>
+The last step in this process is updating Ubuntu itself. <br>
+&emsp;```sudo apt update`` <br>
+&emsp;```sudo apt upgrade`` <br>
+These commands should be run every few weeks as to keep Ubuntu's system up-to-date.
 
