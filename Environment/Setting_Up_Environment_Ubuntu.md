@@ -44,7 +44,7 @@ Partitioning is the process of creating partitions of a storage drive. If you do
     + Only do this is you do not have a new drive.
 3. Ensure your drive looks like this:
 
-[Disk-Management-image](../img/disk-management-after-shrink.jpg)
+![Disk-Management-image](../img/disk-management-after-shrink.jpg)
 
 4. You have now partitioned your storage drive to be used for a dual-boot. Congrats!
 
