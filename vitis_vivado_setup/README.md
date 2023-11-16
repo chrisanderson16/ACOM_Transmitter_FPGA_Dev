@@ -48,9 +48,11 @@ For this specific project, this should be used as test software, to test the Viv
 4. Begin Vivado and Vitis installation
     + Enter the following command in the directory that contains the downloaded installation file:
         ```./[INSERT FILENAME HERE]```
+    + Follow the next images on the proper options to use: <br>
 
----
-
-##### IMPORTANT: Click on the top option in the installtion menu. 
-
----
+![install-img-1](../img/install_1.png) <br>
+![install-img-2](../img/install_2.png) <br>
+![install-img-3](../img/install_3.png) <br>
+![install-img-4](../img/install_4.png) <br>
+![install-img-5](../img/install_5.png) <br>
+![install-img-6](../img/install_6.png) <br>
