@@ -64,9 +64,13 @@ After completed the previous sections, you now have the means to install Ubuntu 
 1. Shutdown device.
 2. Insert boot drive.
 3. Turn on device.
+
 ---
+
 **IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be pressing F12, F10, DEL while booting.
+
 ---
+
 4. Select *install Ubuntu*.
 5. Follow all the steps that are required, such as, creating an account, setting timezone, setting partitions.
     + If prompt with setting partitions for boot and filesystems, set boot for 24GB and the rest for the filesystem, however, this should not occur.
