@@ -12,8 +12,10 @@ This installation guide will give step-by-step instructions for installing Vitis
 This is an important starting point, even before installation. <br>
 **Vivado** is professional FPGA firmware design software. This will be used to continue the development of the transmitter chain for the ACOM Transmitter FGPA. This software was introduced by Dr. J.F. Bousquet. It uses block diagrams and VHDL code to create logical representations of digital circuits on the FPGA. 
 ###### How to actually use this software will be detail in the *How to use Vivado*
+
 **Vitis** is similar to many microcontroller/FPGA IDE's. This meaning, it is similar to using an arduino in the sense that you need to instruct the system on what it should do, given the firmware's definition of the digital circuits. You must import a bitstream, obtained from Vivado, to provide the Vitis on what it can use.<br>
 For this specific project, this should be used as test software, to test the Vivado projects. This is due to the fact that scanning user with Vitis will not work with Petalinux. 
+
 ---
 
 ## How to install Xilinx Suite
