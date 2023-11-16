@@ -1,4 +1,5 @@
 *Written by: Chris Anderson*
+*Last Updated: November 16, 2023*
 
 # Setting up test Environment
 To utilize any tools for this project, it is important to note that a *specific* environment is required. This being a **Linux** distribution.  Vivado and Vitis are available for Windows OS and certain Linux distributions. Petalinux is **ONLY** available for Linux distributions. Below is a list of OS's that can be used. <br>
