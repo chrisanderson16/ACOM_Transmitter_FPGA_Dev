@@ -25,7 +25,7 @@ Moving on to actual requirements for the software. As per Xilinx, it is recommen
 
 ---
 
-##### ALL STEPS REMAIN THE SAME, REGARDLESS OF DISTRIBUTION RELEASE
+###### IMPORTANT: All steps remain the same, until the last section of updating Ubuntu, may be different if not Debian distribution.
 
 ---
 
@@ -75,7 +75,7 @@ After completed the previous sections, you now have the means to install Ubuntu 
 
 ---
 
-##### **IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be done by pressing F12 or F10 or DEL repeatedly while booting.
+###### **IMPORTANT:** Some computer's BiOS will recognize the boot drive immediately, some will not. If it does not prompt you to *Try Ubuntu* or *Install Ubuntu* and just starts up Windows as normal, determine how to open BiOS on your device, this could be done by pressing F12 or F10 or DEL repeatedly while booting.
 
 ---
 
