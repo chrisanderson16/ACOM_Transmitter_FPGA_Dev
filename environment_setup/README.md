@@ -102,7 +102,10 @@ The last step in this process is updating Ubuntu itself. <br>
 These commands should be run every few weeks as to keep Ubuntu's system up-to-date.
 <br>
 <br>
+Make will be required for using Vitis down the road, and any other makefiles you wish to create on the Ubuntu system. For this, enter the following command: <br>
+&emsp;```sudo apt install make```
 <br>
+There are many other dependencies and libraries that may be required. A simple error log may be telling of potential issues that may arise down the road. The *sudo apt install* bash line works well for most distribution recognized libraries and dependencies.
 <br>
 <br>
 
