@@ -1,5 +1,7 @@
+*Written by: Chris Anderson*
+
 # Setting up test Environment
-To utilize any tools for this project, it is important to note that a *specific* environment is required. This being a **Linux** distribution.  Vivado and Vitis are available for Windows OS and certain Linux distributions. Petalinux is **ONLY** available for Linux distributions. Below is a list of OS that can be used. <br>
+To utilize any tools for this project, it is important to note that a *specific* environment is required. This being a **Linux** distribution.  Vivado and Vitis are available for Windows OS and certain Linux distributions. Petalinux is **ONLY** available for Linux distributions. Below is a list of OS's that can be used. <br>
 
 Vitis is available on:  <br>
 
@@ -23,6 +25,13 @@ Moving on to actual requirements for the software. As per Xilinx, it is recommen
 
 #### ALL STEPS REMAIN THE SAME, REGARDLESS OF DISTRIBUTION RELEASE
 
+---
+
 ## Installing a Ubuntu Distribution
 *Skip if you already have a Linux distribution*
-Getting the initial info out of the way, we can move to actually setting up the test environment. This section will contain instructions on how to partition a hard drive, prepare a boot drive, and installing Ubuntu 22.4.3 LTS. 
+Getting the initial info out of the way, we can move to actually setting up the test environment. This section will contain instructions on how to partition a storage drive, prepare a boot drive, and installing Ubuntu 22.4.3 LTS. This will be done in steps, this also assumes you have Windows installed as your OS.
+
+### Partitioning
+Partitioning is the process of creating partitions of a storage drive. If you do not have another drive to use, you must *dual-boot* your system. If looking to *dual-boot*, you must partition **PRIOR** to attempting the remainder sections. <br>
+
+
