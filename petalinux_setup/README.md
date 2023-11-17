@@ -45,9 +45,31 @@ This is where Petalinux comes into play. Using Petalinux, we are able to integra
 ```ia32gcc1```<br>
 ```ia32stdc++6```<br>
 ```libselinux1```<br>
-    + It is important to remember that you may have many of these already installed, however, it is better to make sure by attempting to install it rather than guessing and not knowing why it does not work later.<br>
+    + It is important to remember that you may have many of these already installed, however, it is better to make sure by attempting to install it rather than guessing and not knowing why it does not work later.<br> <br>
 
 2. Downloading the Petalinux 2022.1 installer.
     + This requires a similar process to Vivado and Vitis.
-    + You first need to go to the Xilinx download page [here](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2022-1.html)
-    +
+    + You first need to go to the Xilinx download page [here](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2022-1.html)<br>
+![petalinux-webpage](../img/Petalinux_installer_page.png)<br>
+    + Click on the on the *Petalinux 2022.1 Installer (TAR/GZIP - 2.44 GB)*
+    + You will need to login again, then click **Download**
+    + The download file is something like *petalinux-v2022.1-04191534-installer.run*<br> <br>
+3. Changing permissions of *petalinux-v2022.1-04191534-installer.run*
+    + We complete the same process as with Vivado and Vitis with using the following command: <br>
+    ```sudo chmod 777 petalinux-v2022.1-04191534-installer.run```<br><br>
+4. Install Petalinux
+    + This is a lot easier than Vivado Vitis. Simply use the following commands in the terminal in the directory where the now *runnable* installer file resides (should be in *~/Downloads*). 
+    + Assuming my install file is in my *~/Downloads* directory, I can create an installation directory called *petalinux_dir*: <br>
+```mkdir ../petalinux_dir```<br>
+    + This will create a new installation directory in my user directory called *Petalinux_dir*.<br>
+```./petalinux-v2022.1-04191534-installer.run ../petalinux_dir```<br>
+
+    + This will prompt to accept user agreements. It is similar to **vi** or **vim**, read through it (if you want) and then press 'q' and then 'y' to continue. This step will be required multiple times. <br> <br>
+5. Congrats! You have now installed **Petalinux**.
+
+---
+
+### Potential Issues
+With using Petalinux, there is a great deal that can go wrong. There is a large amount of possible configurations that can be made, and the wrong one can lead to errors that cannot be easily diagnosed. <br><br>
+One such issue I encountered was requiring a tftp server. This was rather simple to implement. All this does is write the output of a Petalinux build to a different directory in the root file (/).
+    
