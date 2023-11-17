@@ -14,8 +14,14 @@ Throughout my time using Petalinux, there was not a specific issue that arose fr
 ---
 
 ### What is Petalinux
-Petalinux is a tool developed by Xilinx that works off of Yocto Linux distribution. What it does is create a custom Linux OS. While there is a great deal of configuration available with it, it creates an extremely bare bones and basic Linux OS. <br> <br>
-This is essential for the project. The micro-controller used throughout this project thus far is the **Digilent Zybo Z7-20**. This is a powerful micro-controller, however, it is still a micro-controller. Therefore, we cannot run many complex distributions on it such as the Ubuntu distribution we have install on the system. <br> <br>
+Petalinux is a tool developed by Xilinx that works off of Yocto Linux distribution. What it does is create a custom Linux OS. While there is a great deal of configuration available with it, it creates an extremely bare bones and basic Linux OS. 
+<br>
+<br>
+
+This is essential for the project. The micro-controller used throughout this project thus far is the **Digilent Zybo Z7-20**. This is a powerful micro-controller, however, it is still a micro-controller. Therefore, we cannot run many complex distributions on it such as the Ubuntu distribution we have install on the system. 
+<br> 
+<br>
+
 This is where Petalinux comes into play. Using Petalinux, we are able to integrate the Vivado FPGA firmware setup into our OS, creating many opportunities for expediting processing and essential operations that we would rather complete through "hardware" rather than software programs.
 
 ---
@@ -49,11 +55,14 @@ This is where Petalinux comes into play. Using Petalinux, we are able to integra
 
 2. Downloading the Petalinux 2022.1 installer.
     + This requires a similar process to Vivado and Vitis.
-    + You first need to go to the Xilinx download page [here](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2022-1.html)<br>
-![petalinux-webpage](../img/Petalinux_installer_page.png)<br>
+    + You first need to go to the Xilinx download page [here](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2022-1.html)
     + Click on the on the *Petalinux 2022.1 Installer (TAR/GZIP - 2.44 GB)*
     + You will need to login again, then click **Download**
-    + The download file is something like *petalinux-v2022.1-04191534-installer.run*<br> <br>
+    + The download file is something like *petalinux-v2022.1-04191534-installer.run*
+<br> 
+
+![petalinux-webpage](../img/Petalinux_installer_page.png)<br>
+
 3. Changing permissions of *petalinux-v2022.1-04191534-installer.run*
     + We complete the same process as with Vivado and Vitis with using the following command: <br>
     ```sudo chmod 777 petalinux-v2022.1-04191534-installer.run```<br><br>
@@ -87,6 +96,9 @@ This is where Petalinux comes into play. Using Petalinux, we are able to integra
 ---
 
 ### Potential Issues
-With using Petalinux, there is a great deal that can go wrong. There is a large amount of possible configurations that can be made, and the wrong one can lead to errors that cannot be easily diagnosed. <br><br>
+With using Petalinux, there is a great deal that can go wrong. There is a large amount of possible configurations that can be made, and the wrong one can lead to errors that cannot be easily diagnosed. 
+<br>
+<br>
+
 One such issue I encountered was requiring a tftp server. This was rather simple to implement. All this does is write the output of a Petalinux build to a different directory in the root file (/).
     
