@@ -65,7 +65,24 @@ This is where Petalinux comes into play. Using Petalinux, we are able to integra
 ```./petalinux-v2022.1-04191534-installer.run ../petalinux_dir```<br>
 
     + This will prompt to accept user agreements. It is similar to **vi** or **vim**, read through it (if you want) and then press 'q' and then 'y' to continue. This step will be required multiple times. <br> <br>
-5. Congrats! You have now installed **Petalinux**.
+5. Almost done, we now just need to do some "housekeeping" items to get the Petalinux install working nicely.
+    + When building with Petalinux, you must be using *bash*. By default, Ubuntu uses *dash*. These are very similar, but all the online resources and documentation require this. This is done by using: <br>
+```sudo dpkg-reconfigure dash``` <br>
+    + This will show a prompt like below.<br>
+    ![dash-to-bash](../img/dash-to-bash.png) <br>
+    + Now just make sure you select *\<NO\>* and press *enter*.<br><br>
+
+6. Each time you want to use Petalinux, you must source it with the bash shell (the Ubuntu terminal). 
+    + To do this, you have a few options. The first, and most basic is to manual source it each time you wish to use Petalinux. This would be done with the follow bash command in the terminal (Change chris to your username on your Ubuntu machine): <br>
+```source /home/chris/petalinux/settings.sh``` <br>
+    + The next option, again would be manually sourcing the settings file, but with something a little more memorable. Set a *bash alias*. This can be done by editing the ***.bashrc*** file in your home directory (or ~/). By using a text editor like *gedit* or *VS Code*, you can insert the following line at the bottom of the file: <br>
+```alias source-petalinux=". /home/chris/petalinux/settings.sh"```<br>
+        + Note: source and "." are equivalent.
+    + The easiest way, if you don't mind having the commands accessible at all times is to simply source them whenever you open a terminal. This can be done by putting the following directly into your ***.bashrc*** file, at the bottom: <br>
+```. /home/chris/petalinux/settings.sh```<br>
+    + All of these methods "source" the settings bash file, which provides the different commands to be used for working with Petalinux. <br> <br>
+
+7. Congrats! You have now installed **Petalinux**.
 
 ---
 
