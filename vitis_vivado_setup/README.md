@@ -25,8 +25,13 @@ For this specific project, this should be used as test software, to test the Viv
 1. Download the installer.
     + This requires you to create a Xilinx account. Go to the [Xilix website](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/2022-1.html).
     + Click on the TAR installer. <br>
-![Download_installer_download_link](../img/Download_installer.png) <br>
-    + It will redirect you to login.
+<p>
+<img align="left" src="../img/Download_installer.png">
+&nbsp;
+</p>
+<br>
+
+  + It will redirect you to login.
         + If you do not have an account, create on, and repeat previous steps.
     + It will ask you to enter information about yourself and your intentions with the software.
         + For civic address, you can use Sexton Campus' address.
