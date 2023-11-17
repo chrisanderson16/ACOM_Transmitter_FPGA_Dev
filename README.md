@@ -28,7 +28,7 @@ This project, as stated above, is to develop a working transmitter chain. Thus f
     + Signal Amplifier
     + Transducer <br> 
 <p>
-<img align="left" src="./img/transmitter-chain.png">
+<img align="left" style="padding-bottom":20px src="./img/transmitter-chain.png">
 </p>
 <p>
 As the project stands, our current plan was to replace the PN Binary Generator and Binary Data Buffer and replace them with a Memory Controller. What this would do is take data from memory in blocks of 1024 bits, and send them down the chain. 
