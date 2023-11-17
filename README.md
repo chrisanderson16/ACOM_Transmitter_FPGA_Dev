@@ -30,6 +30,6 @@ This project, as stated above, is to develop a working transmitter chain. Thus f
 As the project stands, our current plan was to replace the PN Binary Generator and Binary Data Buffer and replace them with a Memory Controller. What this would do is take data from memory in blocks of 1024 bits, and send them down the chain. 
 <br>
 <br>
-What this would mean is that rather than developing code in Vitis, we would opt to use Petalinux to create an OS on the FPGA. This would allow us to write a driver to write to memory with a bash command like: <br>
+What this would mean is that rather than developing code in Vitis, we would opt to use Petalinux to create an OS on the FPGA. This would allow us to write a driver to write to memory with a bash command like: <br> 
 ```echo "Hello world!" > driver``` <br>
 This would leave a great deal of room for configuration, which is something the project sponsor, Ultra, was interested in.
