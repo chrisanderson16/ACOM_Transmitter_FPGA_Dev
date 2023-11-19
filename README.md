@@ -1,5 +1,5 @@
 *Written By: Chris Anderson*<br>
-*Last Updated: November 18, 2023*
+*Last Updated: November 19, 2023*
 
 # Capstone Project: *ACOM Transmitter FPGA Development*
 This is a project collaboration between Dalhousie University and Ultra Maritime ( *Nova Scotia's division of Ultra Electronics* ). The full project is to develop a transmitter chain to take user data to send across the underwater channel to the sister project, the ACOM Receiver. 
