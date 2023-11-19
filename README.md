@@ -36,7 +36,43 @@ These packets then go through the defined JANUS transmission sequence generation
 This sequence can be summed up to be how the user data is encoded. The user data is appended to the JANUS bit stream packet, then is passed through a Cyclic Redundancy Check (*CRC*) module. From there, it is passed to a convolutional encoder with a 2:1 redundancy (meaning for each 2 bits, 1 bit is redundant). Finally, it is interleaved with the carrier frequency.
 <br>
 <br>
+Cyclic Redundancy Check (CRC) is used to prevent data corruption over a channel. For this implementation of JANUS, an 8-bit CRC is used. CRC is a method of preforming a mathematical operation (bit-wise division) given a known key to the message to be transmitted. This resultant is then appended to the message as check bits. This must be done for the JANUS packet, but does not necessarily need to be done for the cargo packet, as this is a non-stop stream of information bits. 
+<br>
+For this, CRC-8 should be used. This uses a key of *0xD5*. This is used to preform the bitwise division on the JANUS packet to obtain the CRC bits to be appended on the end.
+<br>
 
+An example of this was found from the [Wikipedia page for CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check). The following in Python code that can be used to see how CRC works:
+<br>
+
+```python
+def crc_remainder(input_bitstring, polynomial_bitstring, initial_filler):
+    """Calculate the CRC remainder of a string of bits using a chosen polynomial.
+    initial_filler should be '1' or '0'.
+    """
+    polynomial_bitstring = polynomial_bitstring.lstrip('0')
+    len_input = len(input_bitstring)
+    initial_padding = (len(polynomial_bitstring) - 1) * initial_filler
+    input_padded_array = list(input_bitstring + initial_padding)
+    while '1' in input_padded_array[:len_input]:
+        cur_shift = input_padded_array.index('1')
+        for i in range(len(polynomial_bitstring)):
+            input_padded_array[cur_shift + i] \
+            = str(int(polynomial_bitstring[i] != input_padded_array[cur_shift + i]))
+    return ''.join(input_padded_array)[len_input:]
+
+def crc_check(input_bitstring, polynomial_bitstring, check_value):
+    """Calculate the CRC check of a string of bits using a chosen polynomial."""
+    polynomial_bitstring = polynomial_bitstring.lstrip('0')
+    len_input = len(input_bitstring)
+    initial_padding = check_value
+    input_padded_array = list(input_bitstring + initial_padding)
+    while '1' in input_padded_array[:len_input]:
+        cur_shift = input_padded_array.index('1')
+        for i in range(len(polynomial_bitstring)):
+            input_padded_array[cur_shift + i] \
+            = str(int(polynomial_bitstring[i] != input_padded_array[cur_shift + i]))
+    return ('1' not in ''.join(input_padded_array)[len_input:])
+```
 
 
 ##### Waveform Generation
@@ -123,4 +159,7 @@ This would leave a great deal of room for configuration, which is something the 
 
 
 ## References
-NATO. (2017, March 24). ***ANEP-87*** *Digital underwater signalling standard for network node discovery & interoperability.* Retrieved from **saiglobal\.com**
+NATO. (2017, March 24). ***ANEP-87*** *Digital underwater signalling standard for network node discovery & interoperability.* Retrieved from **saiglobal.com**
+<br>
+<br>
+Wikipedia. (n.d.). *Cyclic Redundancy Check*. Retrieved from **https://en.wikipedia.org/wiki/Cyclic_redundancy_check**
