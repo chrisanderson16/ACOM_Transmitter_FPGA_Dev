@@ -187,11 +187,9 @@ Now that you have a Linux distribution install and runs, we can now begin to pre
 The last step in this process is updating Ubuntu itself. 
 <br>
 
-&emsp;```sudo apt update``` 
-<br>
+&emsp;```sudo apt update``` <br>
+&emsp;```sudo apt upgrade``` <br>
 
-&emsp;```sudo apt upgrade``` 
-<br>
 
 These commands should be run every few weeks as to keep Ubuntu's system up-to-date.
 <br>
