@@ -28,6 +28,9 @@ JANUS is a NATO standardized method of communicating in the underwater channel. 
 <br>
 <br>
 These packets then go through the defined JANUS transmission sequence generation, then waveform generation. 
+<br>
+<br>
+
 
 ##### Transmission Sequence Generation
 This sequence can be summed up to be how the user data is encoded. The user data is appended to the JANUS bit stream packet, then is passed through a Cyclic Redundancy Check (*CRC*) module. From there, it is passed to a convolutional encoder with a 2:1 redundancy (meaning for each 2 bits, 1 bit is redundant). Finally, it is interleaved with the carrier frequency.
