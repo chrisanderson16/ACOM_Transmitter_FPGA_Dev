@@ -102,12 +102,19 @@ These packets then go through the defined JANUS transmission sequence generation
 
 ---
 
-## Current Project Developments (As they were when we started)
-<p>
-This project, as stated above, is to develop a working transmitter chain. Thus far, the system we were given includes: 
-</p>
+## Project our Group Received
+*This project, as stated above, is to develop a working transmitter chain.*
+<br>
 
-+ On the FPGA
+**Provided Components**:
++ Zybo Z7-20 SoC (FPGA we used)
++ Filter Board
++ Amplifier Board
++ Underwater Transducer 
+
+
+**Thus far, the system includes**: 
++ *On the FPGA*
     + PN Binary Generator
     + Binary Data Buffer
     + Forward Error Correction (FEC) Convolutional Encoder
@@ -116,26 +123,88 @@ This project, as stated above, is to develop a working transmitter chain. Thus f
     + Passband Upconversion
         + This is where the carrier signal is introduced
     + Pulse Density Modulator (PDM)
-+ External from the FPGA
++ *External from the FPGA*
     + Filter Board
     + Signal Amplifier
-    + Transducer <br> 
-<p>
-<img align="left" src="./img/transmitter-chain.png">
-&nbsp;
-</p>
-<p>
-As the project stands, our current plan was to replace the PN Binary Generator and Binary Data Buffer and replace them with a Memory Controller. What this would do is take data from memory in blocks of 1024 bits, and send them down the chain. 
-</p>
-<p>
-What this would mean is that rather than developing code in Vitis, we would opt to use Petalinux to create an OS on the FPGA. This would allow us to write a driver to write to memory with a bash command like: <br> 
-</p>
+    + Transducer 
+<br> 
 
-```echo "Hello world!" > driver``` <br>
+Below is an illustration of the actual system.
+<br>
 
-<p>
-This would leave a great deal of room for configuration, which is something the project sponsor, Ultra, was interested in.
-</p>
+![transmitter-chain](/img/transmitter-chain.png)
+
+---
+
+## What We have Done during our Capstone Project
+As the project stands, there has been little done with the current chain. This project is a very research heavy implementation. As it turned out for our case, our idea of what we had to do switched many times as the scope of the project was broad and we did not absorb an entirely clear picture as for what our task was. 
+<br>
+<br>
+Because of this, a great deal of time during our capstone project was spent researching and documenting our findings for the next team that takes on this development project can have a better starting point. 
+<br>
+<br>
+Therefore, in this GitHub repository, there are many modules for getting to the point that we are currently at in the project. Some go into more detail than others, some are meant as reference guides for setting up the environment to work in, installing software, using software, and understanding the current state of the transmitter chain.
+<br>
+<br>
+There is an order to which I would advice working through these modules as to ensure that each step is being completed.
+
+1. Reading through this README\.md
+2. Reading through JANUS Module
+3. Setting up the development environment Module
+4. Understanding the transmitter chain Module
+5. Installing Vitis/Vivado Module
+6. Installing Petalinux Module (Not everyone has to do this)<br>
+a. Using Petalinux Module (Only for those that install Petalinux)<br>
+b. Going from Petalinux Output to FPGA boot<br>
+7. Using Vitus/Vivado Module
+8. Driver Development Module
+<br>
+
+It is essential that all those participating in this project complete steps 1-4 to understand what is happening with the project.
+<br>
+<br>
+It is also advised that, depending on whether you are computer or electrical, the Petalinux/Driver side of the project would be better for computer to take on. Vivado/transmitter chain would be better for Electrical to take on. 
+
+---
+
+## Future Work
+As the project stands, our current plan was to replace the PN Binary Generator and Binary Data Buffer and replace them with a Memory Controller. What this would do is take data from memory in blocks of 1024 bits, and send them down the chain. Simple, right? Wrong. This is a grandiose idea to complete, however, making sure to implement each aspect of the JANUS in the proper way will prove difficult.
+<br>
+<br>
+
+#### What is this Project Entails?
+*To achieve this deliverable, there are several additions that must be made in different aspects of the project.*
+
+##### What it would look like
+Between our group and our external and internal supervisor, we opted to create an operating system on the microprocessor. This would utilize a driver that would handle the data to be stored into a specified memory address to be used by the hardware via a memory controller. This would be controlled by a bash command as below:
+
+```bash
+echo "Hello world!" > driver
+```
+
+This would leave a great deal of room for configuration, which is something the project sponsor, Ultra, was interested in. This could also be developed further with custom bash commands. All-in-all, we believe that this would satisfy the usability and extensive configuration that Ultra had desired from the project. 
+<br>
+<br>
+Without the OS, the memory controller system would still be required, and in Vitis, you would also be able to simply scan a user. However, this would only allow for data transfer of strings, whereas the OS would allow for strings, images, data, any files to be transmitted.
+
+#### To Do Breakdown
+##### Vivado
+1. Remove PN Binary Generator
+2. Remove Binary Data Buffer
+3. Implement Memory Controller <br>
+a. Memory mapping must be done
+4. Verify each aspect of the "black box" works as intended
+
+##### Driver/Petalinux
+1. Use Petalinux to build OS for Zybo Z7-20 <br>
+a. For this, you can use Petalinux Build Module
+2. Correspond with Memory Controller development to pick specified memory location
+3. Develop driver to write data to memory location ***DYNAMICALLY***
+<br>
+<br>
+
+While this is the proposed plan, you are able to complete this project however is agreed upon within the group and the sponsor, Ultra. 
+<br>
 
 ---
 
