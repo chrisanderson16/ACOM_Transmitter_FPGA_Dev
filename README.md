@@ -1,8 +1,8 @@
 *Written By: Chris Anderson*<br>
-*Last Updated: November 19, 2023*
+*Last Updated: November 20, 2023*
 
 # Capstone Project: *ACOM Transmitter FPGA Development*
-This is a project collaboration between Dalhousie University and Ultra Maritime ( *Nova Scotia's division of Ultra Electronics* ). The full project is to develop a transmitter chain to take user data to send across the underwater channel to the sister project, the ACOM Receiver. 
+This is a project collaboration between Dalhousie University and Ultra Maritime ( *Nova Scotia's division of Ultra Electronics*). The full project is to develop a transmitter chain to take user data to send across the underwater channel to the sister project, the ACOM Receiver. 
 <br>
 <br>
 This project has had many hands on it over the years, most recently, as our capstone project. This repository is a collection of documentation and knowledge that we have gained over the duration of our time working on it. This README\.md file will detail the scope of the project as it stands, as well as, what each module (directory) entails. 
@@ -11,93 +11,91 @@ This project has had many hands on it over the years, most recently, as our caps
 ---
 
 ## Project Scope
-The aim of this project, as briefly stated above, is to create an Acoustic Modem (ACOM) Transmitter by means of an FPGA board. This system will take input data, encode it, and modulate the signal, all in accordance with JANUS standards. It will finally be sent through a transducer to be transmitted across an underwater channel to a receiver.
+The aim of this project, as briefly stated above, is to create an Acoustic Modem (ACOM) Transmitter. This will use the following components: FPGA board, filter circuit, amplifier circuit, and underwater transducer. This system will take input data, encode (error correction), modulate, filter (D/A converter), amplify, and transmit, all in accordance with JANUS standards. 
 <br>
+<br>
+This document will gloss over many of the important aspects that are required to know when stepping into the project. Specifically, each aspect of the project that may be unknown or new to you.
+
+---
+
+## Background
+*This section will provide you with the necessary information on the background of the device, how and why it works, what is needed, etc. This an important part of the project, as actually understanding what the system does and needs to do is important to continue the design work.*
+
+### ACOM Transmission
+An Acoustic Modem, or ACOM, is a transmitter that employs a method of data transmission that does exactly what the name tells. It communicates via acoustic waves, rather than radio or microwave. The image below shows this idea illustrated with how it *could* be used with an underwater Remote Operated Vehicle (ROV). While there is a wide range of uses, including an alternative to laying telecommunication lines, it is important to note that ACOM transmission is much slower than traditional methods of data transmission. While water has a greater speed of sound when compared to air, it's attenuation is much greater. This can (*and does*) cause a great deal of data loss and scattering of signals, making it difficult to, not only receive the data, but to ensure that it isn't being received multiple times at incorrect times.
+<br>
+
+![acom-transmitter](/img/ACOM_Diagram.png)
+
+<br>
+This is where Binary Frequency Shift Keying (BFSK) and Frequency Hopping (FH) come into play. Utilizing these two operations allow for data to not only ensure that it is being received properly, but also that it is not being obtained at improper times. 
+
+
+#### Binary Frequency Shift Keying (BFSK)
+This is a complex idea to really get a hold on, so I would suggest putting some of your own research into the topic. 
+<br>
+<br>
+In it's simplest form, BFSK is a way to note 0's and 1's as varying frequencies. For example, if I have a center frequency of 1000Hz, my 0 may be represented by 900Hz and my 1 may be represented by 1100Hz. 
+<br>
+
+#### Frequency Hopping (FH)
+FH is another somewhat complex idea, so, again, I would suggest putting some research to getting a good hold on the idea. 
+<br>
+<br>
+FH is a almost exactly what it sounds like. Each bit is to be transmitted at one of thirteen different frequencies within the JANUS bandwidth. This works along with BFSK. 
+<br>
+<br>
+
+#### When we use them together
+For an idea of how this may work in practice, please see below in the code section. It is important to note that this has been done for us my previous developments, however, verification is always a good thing.
+```python
+info                    = 0b00111011
+carrier_freq            = 11520     # Hz
+FH_bound                = 80        # Hz
+
+# In addition to these frequencies, there are 5 others that are unused
+# #####################################################################
+# bit 7 = 0 
+center_freq_7           = 11840     # Hz
+bit_7_transmission_freq = center_freq_7 - FH_bound
+# bit 6 = 0 
+center_freq_6           = 11520     # Hz
+bit_7_transmission_freq = center_freq_7 - FH_bound
+# bit 5 = 1 
+center_freq_5           = 11200     # Hz
+bit_7_transmission_freq = center_freq_7 + FH_bound
+# bit 4 = 1 
+center_freq_4           = 10880     # Hz
+bit_7_transmission_freq = center_freq_7 + FH_bound
+# bit 3 = 1 
+center_freq_3           = 10560     # Hz
+bit_7_transmission_freq = center_freq_7 + FH_bound
+# bit 2 = 0 
+center_freq_2           = 10240     # Hz
+bit_7_transmission_freq = center_freq_7 - FH_bound
+# bit 1 = 1 
+center_freq_1           = 9920      # Hz
+bit_7_transmission_freq = center_freq_7 + FH_bound
+# bit 0 = 1 
+center_freq_0           = 9600      # Hz
+bit_7_transmission_freq = center_freq_7 + FH_bound
+```
+
+
 <br>
 
 #### JANUS
-*The following images are from ANEP-87.*
-<br>
-<br>
-Understanding JANUS is a very important part of the project. Luckily, the hard part of JANUS is done for us, for the most part, that being the actual wave modulation and encoding (hard for me at least). 
-<br>
+Understanding JANUS is a very important part of the project. Luckily, the hard part of JANUS is done for us, that being the actual wave modulation and encoding (hard for me at least). 
 <br>
 
 ##### What is JANUS?
-JANUS is a NATO standardized method of communicating in the underwater channel. This could also be considered transmitting data via the underwater channel. To put it into simple terms, the JANUS protocol uses packet headers, similar to how internet packets work. Each sequence of bits has a different meaning for a node or receiver to understand, for instance, whether a message is an emergency distress signal, or just a friendly acknowledgement. These packets can also have the *cargo data* or payload/information we want to transmit.
+JANUS is a NATO standardized method of communicating in the underwater channel. In simpler terms, it defines how NATO countries should send data underwater. 
+<br>
+The JANUS protocol details the use of *wake-up tones*, *32-bit preamble*, and *header packet* (with optional appended *cargo data* or payload). The packet headers are almost the same idea as to how internet packets work. Each sequence of bits has a different meaning for a node or receiver to understand, for instance, whether a message is an emergency distress signal, or just a friendly acknowledgement. These packets can be used to communicate a given message, or transmit detailed information in the appended cargo data section.
+<br>
+These packets then go through the defined JANUS transmission sequence generation, then waveform generation. To get a better idea of how JANUS works, please see the [JANUS module](/JANUS/README.md).
 <br>
 <br>
-These packets then go through the defined JANUS transmission sequence generation, then waveform generation. 
-<br>
-<br>
-
-
-##### Transmission Sequence Generation
-This sequence can be summed up to be how the user data is encoded. The user data is appended to the JANUS bit stream packet, then is passed through a Cyclic Redundancy Check (*CRC*) module. From there, it is passed to a convolutional encoder with a 2:1 redundancy (meaning for each 2 bits, 1 bit is redundant). Finally, it is interleaved with the carrier frequency.
-<br>
-<br>
-Cyclic Redundancy Check (CRC) is used to prevent data corruption over a channel. For this implementation of JANUS, an 8-bit CRC is used. CRC is a method of preforming a mathematical operation (bit-wise division) given a known key to the message to be transmitted. This resultant is then appended to the message as check bits. This must be done for the JANUS packet, but does not necessarily need to be done for the cargo packet, as this is a non-stop stream of information bits. 
-<br>
-For this, CRC-8 should be used. This uses a key of *0xD5*. This is used to preform the bitwise division on the JANUS packet to obtain the CRC bits to be appended on the end.
-<br>
-
-An example of this was created and can be found [here](./CRC_Example.py). However, the basic pseudo code will be below.
-<br>
-```python
-for i in range(LENGTH OF PACKET):
-    if INPUT PACKET in RANGE OF VALUES:
-        INPUT PACKET XOR (^) DIVISOR
-        DIVISOR >>= 1
-    else:
-        DIVISOR >>= 1
-```
-This, with some other operations, will create the desired CRC for a given packet.
-
-
-
-
-##### Waveform Generation
-This is where the main sequencing of the transmission comes from. The frequency-hopping is introduced to map to each symbol. The 32-bit preamble is also create. To sum up the portion of the JANUS baseline packet encoding, it is where "pre-transmission" packets are created, including the wake-up tones, 32-bit preamble (which initializes the frequency hopping), chip windowing and/or tukey window, before finally being sent to the transducer.
-<br>
-<br>
-The general flow chart of what happens with JANUS is shown below.
-
-![janus-flow-chat](./img/JANUS_Packet_Encoding.jpg)
-
-This is an important part of JANUS. This needs to be understood. The implementation we started with began at the CRC generator. This means that to implement an *ACTUAL* JANUS protocol in the system, our input data must be altered to meet the criteria. This must be done, following the JANUS bit allocation table, shown below (This table is broken down in greater detail in ANEP-87).
-
-![janus-bit-allocation](./img/JANUS_bit_allocation.jpg)
-
-##### So what does this all mean? 
-This means that whenever we want to send a transmission, the first part of that transmission, *or packet*, must have the first 64 bits defined by the bit allocation table. The follow "cargo" data can be of any length, and does not require any other such bit allocations. It is important to note that the cargo can follow the same convolutional encoding and interleaving, however, they are separately encoded and interleaved. There must ***NOT*** be ***ANY*** delay from the JANUS baseline packet and the cargo packet.
-<br>
-<br>
-
-##### Wake-up Tones and 32-bit Sequencing
-An aspect of the power reduction of JANUS is how it interacts with receivers and nodes. These nodes will be *sleeping*, or in a low power usage state when not in use and must be *awoken* by certain, preset tones. There is then a period where the node or receiver is given time to *wake up*. There is then a 32-bit sequence that essentially initializes the frequency hopping.
-<br>
-The sequence is as follows:
-<br>
-&emsp;&emsp;***{1,0,1,0,1,1,1,0,1,1,0,0,0,1,1,1,1,1,0,0,1,1,0,1,0,0,1,0,0,0,0,0}*** <br>
-After this sequence, the JANUS packet (*according to the bit allocation table*) is sent, followed by the cargo data. This is the data flow of JANUS.  Below is the data packet makeup for JANUS, followed by the frequency vs. time plot.
-
-![janus-structure-packet-and-freq-v-time](/img/JANUS_packet_and_time_freq_structure.jpg)
-
-An observation to note is that the JANUS protocol states that it is to operate at *9440-13600Hz*. However, it does go on to say that there is a possibility that it could run at higher or lower frequencies.
-<br>
-<br>
-
-To gain a better understanding of this, I recommend you download the actual NATO standard, promulgated by ***STANAG 4748***. This actual standardized document of the method is called ***ANEP-87***. This can be downloaded from wherever you can find it, however, **[this link](https://infostore.saiglobal.com/en-us/standards/anep-87-2017-737592_saig_nato_nato_1791960/)** provides you with a free download DRM'ed PDF version.
-<br>
-<br>
-Simply create an account (free) and download (free). Keep in mind, this is a DRM file, meaning that once you download it, you are not able to copy or paste it. While I don't know to the fullest extent of how this works, I was able to save it from the web to my OneDrive. From there I can access it from all my devices I log into.
-<br>
-
-###### DISCLAIMER: I didn't even know this would work, I cannot recommend what you do with the file, I am just saying what I did.
-<br>
-I highly recommend this to be one of the first this that you do, as without it, you will not fully understand what the system is doing or why. Without knowing what or why, its very difficult to develop the system further.
-<br>
-
 
 
 ---
