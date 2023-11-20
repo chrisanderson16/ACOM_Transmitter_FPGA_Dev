@@ -53,34 +53,34 @@ For an idea of how this may work in practice, please see below in the code secti
 ```python
 info                    = 0b00111011
 carrier_freq            = 11520     # Hz
-FH_bound                = 80        # Hz
+BFSK_bound              = 80        # Hz
 
 # In addition to these frequencies, there are 5 others that are unused
 # #####################################################################
 # bit 7 = 0 
 center_freq_7           = 11840     # Hz
-bit_7_transmission_freq = center_freq_7 - FH_bound
+bit_7_transmission_freq = center_freq_7 - BFSK_bound
 # bit 6 = 0 
 center_freq_6           = 11520     # Hz
-bit_7_transmission_freq = center_freq_7 - FH_bound
+bit_7_transmission_freq = center_freq_7 - BFSK_bound
 # bit 5 = 1 
 center_freq_5           = 11200     # Hz
-bit_7_transmission_freq = center_freq_7 + FH_bound
+bit_7_transmission_freq = center_freq_7 + BFSK_bound
 # bit 4 = 1 
 center_freq_4           = 10880     # Hz
-bit_7_transmission_freq = center_freq_7 + FH_bound
+bit_7_transmission_freq = center_freq_7 + BFSK_bound
 # bit 3 = 1 
 center_freq_3           = 10560     # Hz
-bit_7_transmission_freq = center_freq_7 + FH_bound
+bit_7_transmission_freq = center_freq_7 + BFSK_bound
 # bit 2 = 0 
 center_freq_2           = 10240     # Hz
-bit_7_transmission_freq = center_freq_7 - FH_bound
+bit_7_transmission_freq = center_freq_7 - BFSK_bound
 # bit 1 = 1 
 center_freq_1           = 9920      # Hz
-bit_7_transmission_freq = center_freq_7 + FH_bound
+bit_7_transmission_freq = center_freq_7 + BFSK_bound
 # bit 0 = 1 
 center_freq_0           = 9600      # Hz
-bit_7_transmission_freq = center_freq_7 + FH_bound
+bit_7_transmission_freq = center_freq_7 + BFSK_bound
 ```
 
 
