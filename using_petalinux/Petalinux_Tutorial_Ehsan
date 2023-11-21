@@ -1,0 +1,384 @@
+Install Petsalinux (also install sudo apt-get install libncurses5), before that:
+sudo dpkg-reconfigure dash
+
+, then, select "No".
+
+===================================================================================
+Create, Config, build, and using Petalinux:
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+(1)
+Before doing everything, source the petalinux files in the opened terminal as ollows:
+source /home/ehsan/Ehsan_projects/Petalinux2021.1/settings.sh
+
+where "/home/ehsan/Ehsan_projects/Petalinux2021.1" is the path of the installed petalinux.
+===============================================================================================
+(2)
+Create a project using a BSP or an XSA file (*.XSA is the exported hardware from Vivado):
+First, go to the folder you want to put the root of your project in it. Then, open the terminal there. Then, source the petalinux settings.
+-------------------------------------------------------------------------------------------------
+(2-1)
+How to create petalinux project from an existing BSP file:
+In the opened terminal, after sourcing, run the following code:
+
+petalinux-create -t project -s /home/ehsan/Ehsan_projects/Petalinux_projects/BSPs/zedboard/avnet-digilent-zedboard-v2021.1-final.bsp
+------------------------------------------------------------------------------------------------
+(2-2)
+How to create petalinux project from an XSA exported hardware file:
+In the opened terminal, after sourcing, run the following code:
+
+petalinux-create --type project --template zynq --name project_name
+(Instead of "zynq" which is for the zyq7000 series, you can write "microblaze" if you work with micrblaze)
+Go to the project folder (or cd project_name) and run:
+
+petalinux-config --get-hw-description <PATH-TO-XSA Directory>/<PATH-TO-XSA>
+
+where, <PATH-TO-XSA Directory>/<PATH-TO-XSA> is the path to the *.XSA file.
+This code opens a config window based on the XSA file. Do the changes in that as follows:
+==============================================================================================
+(3)
+Config: In the config window do the followings:
+DTG Settings → (template) MACHINE_NAME → change the template to any
+of the below mentioned possible values. Some values: zedboard    zc702
+using the TAB and arrow keys go to the save and press enter.
+
+Yocto Settings → Enable Network sstate feeds >> press space or N to deactivate it. This options must not have a star (must not be active). save it and exit. Again save and exit.
+================================================================================================
+(4)
+Build the project
+Go to the project folder, run terminal, after sourcing the petalinux run:
+petalinux-build
+
+It may take about 3 hours.
+After the first config using the board XSA, for the future configs, just run: petalinux-config
+===============================================================================================
+(5)
+Adding GCC, g++, python, and another packages by configing the rootfs.
+After the build is finished, run:
+petalinux-config -c rootfs
+
+(optional, if necessary): Filesystem Packages → admin → sudo → activate all three sudo, sudo-dbg, sudo-dev, then save and exit.
+
+GCC and g++ package: Filesystem Packages → misc → packagegroup-core-buildessential → activate the two items: packagegroup-core-buildessential and packagegroup-core-buildessential-dev. save and exit.
+
+Make sure the apps gpio and peekpoke are active in:
+apps → gpio-demo, and peekpoke.
+If they are not available, then manualy add them in the file in the python step.
+
+python package(optional): Filesystem Packages → devel → python → python: activate the five items: python, python-distutils, python-shell, python-ctypes, python-io. save and exit.
+
+Also you should add some texts in a file for python under the gpio and peekpoke. First save and exit the config window (the config window shoiuld be disapeared). Then go to the following file and open it:
+
+<Petalinux_project root>/project-spec/meta-user/conf/user-rootfsconfig
+
+if the lines CONFIG_gpio-demo and CONFIG_peekpoke are exist, then add the lines:
+CONFIG_python-cffi
+CONFIG_python-pycparser
+CONFIG_libffi
+
+The whole file content should be like this:
+******************************************************
+#Note: Mention Each package in individual line
+#These packages will get added into rootfs menu entry
+
+CONFIG_gpio-demo
+CONFIG_peekpoke
+CONFIG_python-cffi
+CONFIG_python-pycparser
+CONFIG_libffi
+*******************************************************
+save and close the file. Run the rootfs config again:
+petalinux-config -c rootfs
+
+Now, go to
+user packages → activate the three items libffi, python-cffi, python-pycparser, save and exit.
+Also go to apps → activate the two items gpio-demo, peekpoke, save and exit.
+
+To see how to compile and execute a c/c++ code using python on petalinux on the board, go to the below link:
+https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/143589440/Executing+C+code+from+Python+on+Linux+Petalinux+on+ZCU102
+===============================================================================================
+(6)
+Activating the drivers by configing the kernel:
+
+run:
+petalinux-config -c kernel
+
+After the window apears, go to:
+Device Drivers → Userspace I/O drivers (make sure it has a star, if not to change from blank or M to *)
+Make sure the two items "Userspace I/O platform driver with generic IRQ handling"  and  "Userspace platform driver with generic irq and dynamic memo"  are activated (have *, not M). Save and exit.
+
+===============================================================================================
+(7)
+The other config is:
+petalinux-config -c u-boot
+that is not applicable for my project for now.
+===============================================================================================
+(8)
+Custom blocks Device Tree adding:
+First, find the name of your block(s) from the block design in Vivado or in the following file:
+<Petalinux_project_root>/components/plnx_workspace/device-tree/device-tree/pl.dtsi
+
+For example, the file has:
+------------------------------------------------------------------
+my_adder_axi_v1_0_S0_0: my_adder_axi_v1_0_S00_AXI@43c00000 {
+			clock-names = "S_AXI_ACLK";
+			clocks = <&clkc 15>;
+			compatible = "xlnx,my-adder-axi-v1-0-S00-AXI-1.0";
+			reg = <0x43c00000 0x10000>;
+		};
+------------------------------------------------------------------
+Here, the block name is "my_adder_axi_v1_0_S0_0".
+
+Now, go to the following file and open it:
+<Petalinux_project_root>/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
+		
+keep the includes in first lines and add the following content, so that the content should be at least as follows:
+
+-----------------------------------------------------------------------------
+/include/ "system-conf.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "Zynq ZC702 Development Board";
+	compatible = "xlnx,zynq-zc702", "xlnx,zynq-7000";
+
+	chosen {
+		bootargs = "console=ttyPS0,115200 earlyprintk uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait";
+	};
+
+
+
+};
+
+
+&my_adder_axi_v1_0_S0_0 {
+	compatible = "generic-uio";
+};
+-----------------------------------------------------------------------------------------
+For each custom block, you should add:
+&The_custom_block_name {
+	compatible = "generic-uio";
+};
+
+save the file and close it.
+
+Some times the device tree has not been generated by the petalinux. So, we can generate it and all the related files using Vitis.
+=============================================================================================
+(9)
+build the project again:
+Go to the project folder, run terminal, after sourcing the petalinux run:
+petalinux-build
+
+This time it just updates the project based on the updated configs, so it probably takes shorter time.
+If you only updated the device tree you can run
+petalinux-build -c device-tree
+instead of
+petalinux-build
+But I am not sure if it builds the project correctly. I recommend using petalinux-build.
+===============================================================================================
+(10)
+Generating the BOOT image files:
+Go to the following folder and open the terminal in it:
+<Petalinux_project_root>/images/linux/
+
+After sourcing the petalinux, run the following command:
+petalinux-package --boot --fsbl zynq_fsbl.elf --fpga system.bit --u-boot u-boot.elf
+
+This code generates th BOOT.BIN and some other files in that folder.
+Everytime after building the project, delete this BOOT.BIN file and then again generate it.
+===============================================================================================
+(11)
+Copying the Files to an SD card:
+First, partition the SD card as follows (this is for a 16 GB SD card):
+Free space: 10 MB
+Partition 1: Name: BOOT, Format: FAT32, Size: 2 GB
+Partition 2: Name: RootFS, Format: Ext4, Size: 14 GB
+
+Copy the files BOOT.BIN, boot.scr, and image.ub from the following folder
+<Petalinux_project_root>/images/linux/
+into the BOOT partition of the SD card. If it needs permissions (has error while copying it), then open a terminal in the origin folder, do the copy in the terminal using the following codes one by one:
+cp BOOT.BIN /media/ehsan/BOOT/
+cp boot.scr /media/ehsan/BOOT/
+cp image.ub /media/ehsan/BOOT/
+
+Then, copy and past the compressed file "rootfs.tar.gz" from
+<Petalinux_project_root>/images/linux/
+into the RootFS partition of the SD card, the extract it there. After the extraction is completed, delete the compressed file from the RootFS partition.
+Wait a momemnt then safe remove the SD card.
+================================================================================================
+(12)
+Config the board:
+Put the SD card on the board. Then set the switch SW16 as follows to boot from SD card:
+1: off, 2: off, 3: on, 4: on, 5: off. (To use JTAG just change 3 from on to off).
+
+Connect the USB UART cable to the computer, turn on the board for a few seconds then turn it off.
+Run the serial terminal application in the computer using the code:
+sudo gtkterm
+If it doesn't exist, then install it.
+Go to Configuration >> Port
+Choose the aproprate port for your usb device (for me it is /dev/ttyUSB0), Baud Rate 115200, Parity none, Bits 8, Stopbits 1, and Flow control none. Then ok. If the USB port does not apear, then close the cnfiguration windown, turn on the board for a few seconds, turn off it, then open Configuration >> Port again.
+If there is a driver issue, install the board drivers using the following instruction:
+Disconnect any usb and non-usb cables from the computer.
+go to the following folder:
+cd ${vivado_install_dir}/data/xicom/cable_drivers/lin64/install_script/
+install_drivers/
+Then open terminal in there and run:
+./install_drivers
+
+Now turn on the board and wait for petalinux to load, it shows loading texts in the serial terminal. Wait until it finishes loading. Now, it is ready to run the commands :)
+=================================================================================================
+(13)
+Working with petalinux, compiling the c/c++ program and run it:
+
+First, to make sure the custom hardware is included, use the following command to look into the dev folder:
+ls /dev
+or
+dir /dev
+Look for the folder "uio0" in the apeared list. If it exists, then the custom block has been included and the device tree has been included correctly.
+---------------------------------------------------------
+To go to a folder:
+cd /folder
+To go to a second or more level folder:
+cd /folder1/folder2/...../foldern
+cannot go one by one.
+---------------------------------------------------------
+Look into the root:
+ls /
+---------------------------------------------------------
+look into the current folder:
+ls
+or
+dir
+---------------------------------------------------
+Go to the SD card:
+BOOT partition:
+cd /mnt/sd-mmcblk0p1
+RootFS partition:
+cd /mnt/sd-mmcblk0p2
+-----------------------------------------------------
+Create a blanck c or c++ file:
+touch source_file.c
+or
+touch source_file.cpp
+-----------------------------------------------------
+Open it using the vi editor:
+vi source_file.cpp
+--------------------------------------------------
+save and close file in vi:
+1) press esc once.
+2) :wq
+3) Enter
+(:q also works if :wq does not work. Probably :q is just for exit and not save)
+----------------------------------------------------------------
+Delete all (select all and delete) in vi:
+1) press esc once.
+2) :%d
+3) Enter
+-----------------------------------------------------------------------
+Copy and paste to vi:
+1) Copy your content to a notepad in windows or linux.
+2) Select all (ctrl+A).
+3) ctrl+insert
+4) Go to the vi, and shift+insert
+5) Correct the first line manually and check the other lines (it does not copy the first two characters!)
+More about vi:
+https://www.warp.dev/terminus/select-all-in-vim-vi#:~:text=To%20perform%20the%20command%20traditionally,all%20in%20Vim%2C%20do%20ggVG.
+--------------------------------------------------------------------------
+Compilling the cpp or c file: (use g++ instead of gcc)
+g++ source_file.cpp -o my_app
+or
+g++ source_file.cpp -g -o my_app
+
+More:
+https://stackoverflow.com/questions/10906275/undefined-reference-to-stdios-baseinitinit
+
+my_app is the name of the output file that is executable.
+---------------------------------------------------------------------------------------
+Run the output file:
+./my_app
+================================================================================================
+(14)
+The important sample file to make the axi connections and baseaddress:
+The following cpp code contains everything about it:
+----------------------------------------------------------------------------------------
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <math.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+
+
+//int32_t *baseaddr_p = NULL;
+//struct axi_out *out = NULL;
+//struct axi_in *in = NULL;
+
+
+int main() {
+    char const *uiod = "/dev/uio0";
+    // printf("Opening UIO device...\n");
+
+    int fd = open(uiod, O_RDWR);
+
+    if (fd < 1) {
+        // printf("Invalid UIO device file: %s.\n", uiod);
+        return 0;
+    }
+
+    // printf("Opened UIO device.\n");
+
+    // printf("Mapping memory...\n");
+    void *gpio_ptr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    
+    
+    if (gpio_ptr == MAP_FAILED) {
+        // printf("Failed to map memory.\n");
+        return 0;
+    }
+    
+    // printf("Mapped memory.\n");
+    int32_t *baseaddr_p = (int32_t *) gpio_ptr;
+
+    //out = (struct axi_out *) gpio_ptr;
+    //in = (struct axi_in *) gpio_ptr;
+
+  //  for (int i = 0; i < 20; i++) {
+  //      baseaddr_p[i] = 0;
+   // }
+   
+   std::cin >> *(baseaddr_p+1);
+   std::cin >> *(baseaddr_p+2);
+   
+   std::cout << *(baseaddr_p+3);
+   std::cout << "\n";
+    
+    
+return 0;
+}
+================================================================================================
+
+
+Some useful links:
+
+
+https://digilent.com/reference/programmable-logic/zybo-z7/demos/petalinux
+----------------------------------------------------------------
+
+https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Zynq7000-EDT/4-linux-for-zynq.html
+------------------------------------------------------------------------------
+
+https://support.xilinx.com/s/article/54012?language=en_US#switch
+----------------------------------------------------------------------
+
+https://www.linkedin.com/pulse/gpio-petalinux-part-1-roy-messinger/
+
+https://www.linkedin.com/pulse/gpio-petalinux-part-2-roy-messinger/
+
+https://www.linkedin.com/pulse/gpio-petalinux-part-3-go-uio-roy-messinger/
+------------------------------------------------------------------------------------------
+
+
+
+
+
+
