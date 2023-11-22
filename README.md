@@ -211,5 +211,4 @@ While this is the proposed plan, you are able to complete this project however i
 ## References
 NATO. (2017, March 24). ***ANEP-87*** *Digital underwater signalling standard for network node discovery & interoperability.* Retrieved from **saiglobal.com**
 <br>
-<br>
 Wikipedia. (n.d.). *Cyclic Redundancy Check*. Retrieved from **https://en.wikipedia.org/wiki/Cyclic_redundancy_check**
