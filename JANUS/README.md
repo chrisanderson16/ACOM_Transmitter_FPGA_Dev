@@ -29,7 +29,7 @@ This is something that is the entire point of JANUS. To describe what message is
 ##### CRC
 Cyclic Redundancy Check (CRC) is used to prevent data corruption over a channel. For this implementation of JANUS, an 8-bit CRC is used. CRC is a method of preforming a mathematical operation (bit-wise division) given a known key to the message to be transmitted. This resultant is then appended to the message as check bits. This must be done for the JANUS packet, but does not necessarily need to be done for the cargo packet, as this is a non-stop stream of information bits. 
 <br>
-For this, CRC-8 should be used. This uses a key of *0xD5*. This is used to preform the bitwise division on the JANUS packet to obtain the CRC bits to be appended on the end.
+For this, CRC-8 should be used. This uses a key of *0xD5*. This is used to perform the bitwise division on the JANUS packet to obtain the CRC bits to be appended on the end.
 <br>
 
 An example of this was created and can be found [here](./CRC_Example.py). However, the basic pseudo code will be below.
@@ -55,7 +55,7 @@ If you've never heard this term before, it can sound somewhat intimidating, howe
 <br>
 
 ### Waveform Generation
-This is where the main sequencing of the transmission comes from. The frequency-hopping is introduced to map to each symbol. The 32-bit preamble is also create. To sum up the portion of the JANUS baseline packet encoding, it is where "pre-transmission" packets are created, including the wake-up tones, 32-bit preamble (which initializes the frequency hopping), chip windowing and/or tukey window, before finally being sent to the transducer.
+This is where the main sequencing of the transmission comes from. The frequency-hopping is introduced to map to each symbol. The 32-bit preamble is also created. To sum up the portion of the JANUS baseline packet encoding, it is where "pre-transmission" packets are created, including the wake-up tones, 32-bit preamble (which initializes the frequency hopping), chip windowing and/or tukey window, before finally being sent to the transducer.
 <br>
 <br>
 This is an important part of JANUS. This needs to be understood. The implementation we started with began at the CRC generator. This means that to implement an *ACTUAL* JANUS protocol in the system, our input data must be altered to meet the criteria. This must be done, following the JANUS bit allocation table, shown below (This table is broken down in greater detail in ANEP-87).
@@ -73,7 +73,7 @@ After this sequence, the JANUS packet (*according to the bit allocation table*) 
 
 
 ##### Tukey Window
-This where where the filter board and amplifier of the project come into play. This will specify how the final transmitted way with appear. In other words, how long each window of data transmission will take. For example, if I have a bit of value '1' and it's being transmitted with a frequency of 11200 Hz, I must specific how long this frequency will last. This is defined by the filter board. 
+This where where the filter board and amplifier of the project come into play. This will specify how the final transmitted wave will appear. In other words, how long each window of data transmission will take. For example, if I have a bit of value '1' and it's being transmitted with a frequency of 11200 Hz, I must specific how long this frequency will last. This is defined by the filter board. 
 
 #### Bringing this all together
 When we bring this aspects of data transmission, we have a work JANUS compatible transmission chain. This is essential, as *Ultra* has defined the ACOM Transmitter must be JANUS compatible. 
@@ -98,9 +98,9 @@ To gain a better understanding of this, I recommend you download the actual NATO
 Simply create an account (free) and download (free). Keep in mind, this is a DRM file, meaning that once you download it, you are not able to copy or paste it. While I don't know to the fullest extent of how this works, I was able to save it from the web to my OneDrive. From there I can access it from all my devices I log into.
 <br>
 
-###### DISCLAIMER: I didn't even know this would work, I cannot recommend what you do with the file, I am just saying what I did.
+###### DISCLAIMER: I didn't even know that this would work, and I cannot recommend what you do with the file. I am just saying what I did.
 <br>
-I highly recommend this to be one of the first this that you do, as without it, you will not fully understand what the system is doing or why. Without knowing what or why, its very difficult to develop the system further.
+I highly recommend this to be one of the first this that you do, as without it, you will not fully understand what the system is doing or why. Without knowing what or why, it's very difficult to develop the system further.
 <br>
 
 ---
