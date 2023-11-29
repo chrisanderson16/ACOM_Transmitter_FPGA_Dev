@@ -1,0 +1,1 @@
+cmd_/home/pi/driverCreation/LinuxDriver-hello-world/mymodule.ko := ld -r -EL -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/pi/driverCreation/LinuxDriver-hello-world/mymodule.ko /home/pi/driverCreation/LinuxDriver-hello-world/mymodule.o /home/pi/driverCreation/LinuxDriver-hello-world/mymodule.mod.o;  true
