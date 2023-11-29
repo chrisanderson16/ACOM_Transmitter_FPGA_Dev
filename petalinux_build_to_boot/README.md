@@ -1,8 +1,73 @@
 # Description
 This is a repo for Team 7 to use .xsa files to build petalinux from. This repository will also share the instructions on how this is done below. <br/>
 
-###IMPORTANT NOTE FOR FUTURE DEVELOPMENT
+### IMPORTANT NOTE FOR FUTURE DEVELOPMENT
 This is for use with a Zybo Z7-20 Development board, other boards may differ. <br/>
+
+---
+
+## Partitioning MicroSD card
+Before we can begin moving the boot files to the SD card, we must first partition the SD card, similarly to how we did with partitioning for a dual boot. In fact, it is the exact same way! However, given you have dual booted, and are most likely on Ubuntu already, therefore, this explanation will show how to do this on a Linux distribution (Ubuntu). It is important to note that the process I will explain is the easiest I could find and it follows the UG1144 PetaLinux reference guide from Xilinx provides the full instructions, so if you face issues with the following instructions, refer to it [here](https://docs.xilinx.com/r/en-US/ug1144-petalinux-tools-reference-guide/Partitioning-and-Formatting-an-SD-Card).
+<br>
+The most important thing to remember when creating partitions for the Petalinux boot files is that the boot filesystem needs to be Fat32, whereas the root filesystem must be Fat Ext 4.
+<br>
+
+#### This will follow the process through the terminal, you opt to use the Ubuntu Disk Manager Application, or another equivalent application if you wish.
+
+**1.** Insert the microSD card into your device. <br>
+&emsp;+ MicroSD card may require adapter.
+&emsp;+ Ensure it is **NOT** on Read-Only mode. This is typically a slider on the side.
+
+**2.** Unmount the SD card with the following command in the terminal. <br>
+```bash
+sudo umount /dev/sdc
+```
+
+**3.** Enter the following command into the linux terminal and press *enter*.<br>
+```bash
+sudo fdisk -l
+```
+&emsp;+ This will display all the storage disks that you have on your device. Make note of the one that is your SD card. This can be done by matching the storage sizes.
+
+**4.** Enter the following command and press enter (for this demonstration, I will be called the SD card *sdc1*):
+```bash
+sudo fdisk /dev/sdc
+```
+###### NOTE: THIS MAY BE DIFFERENT THAN YOUR SYSTEM. ***THIS WILL DELETE ALL DATA ON THE SD CARD***
+
+**5.** Enter *n*. <br>
+
+**6.** Enter *p* <br>
+
+**7.** Leave *Partition number* and *First sector* blank by pressing enter. <br>
+
+**8.** Enter in the size of storage you would like to have for the boot partition. UG1144 recommends ~10GB, This option is in bits, rather than bytes. Therefore, enter *21111220* and press *enter*. <br>
+
+**9.** Select *y* <br>
+
+**10.** Select *n* <br>
+
+**11.** Enter *p* <br>
+
+**12.** Enter *w* <br>
+&emsp;+ This will create the final partition which will take up the remainder of the storage on the SD card.
+
+**13.** Now we can format each partition. The boot will be formatted as Fat32 with the following command: <br>
+```bash
+sudo mkfs.vfat /dev/sdc1
+```
+&emsp;+ NOTE: This may have change the SD card's disk name, make sure to use the correct one!
+&emsp;+ NOTE 2: You can simply look for the partition sizes you just made.
+
+**14.** Finally, we format the file system partition with:
+```bash
+sudo mkfs.ext4 /dev/sdc2
+```
+
+<br>
+Congrats! You partitioned the SD card, now you can continue into the next section of this document.
+
+---
 
 ## Partition File Placement
 **Partition 1: Smaller partition**<br/>
