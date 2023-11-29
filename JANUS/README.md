@@ -53,7 +53,7 @@ This process is done for us. This works exactly how you would think it would wor
 If you've never heard this term before, it can sound somewhat intimidating. The interleaver actually does something rather simple. The best and only way that I have been able to understand it is with the following diagram from [RF Wireless World](https://www.rfwireless-world.com/Terminology/Advantages-of-Interleaving-in-Data-Communication.html). This clearly explains it, and the visual below shows exactly what is happening to prevent burst errors from corrupting the data being transmitted.
 <br>
 <br>
-![Interleaving_img](./img/Interleaving.jpg)
+![Interleaving_img](../img/Interleaving.jpg)
 <br>
 <br>
 
