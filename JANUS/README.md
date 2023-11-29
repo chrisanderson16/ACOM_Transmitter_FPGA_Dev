@@ -50,7 +50,10 @@ This, with some other operations, will create the desired CRC for a given packet
 This process is done for us. This works exactly how you would think it would work. It encodes the JANUS packet with a 2:1 redundancy (For every two bits transmitted, one is to ensure its received correctly). The actual process that is going on here is somewhat complex to explain in greater detail, however, there is a large amount of education documentation online for this topic. One such can be found [here](http://web.mit.edu/6.02/www/f2010/handouts/lectures/L8.pdf) 
 
 ##### Interleaver
-If you've never heard this term before, it can sound somewhat intimidating, however, all the interleaver does is introduce the carrier frequency. Again, this is already done from previous works on the development project. What it does is use a upconversion passband to create the final output signal that is almost ready to be transmitted.
+If you've never heard this term before, it can sound somewhat intimidating. The interleaver actually does something rather simple. The best and only way that I have been able to understand it is with the following diagram from [RF Wireless World](https://www.rfwireless-world.com/Terminology/Advantages-of-Interleaving-in-Data-Communication.html). This clearly explains it, and the visual below shows exactly what is happening to prevent burst errors from corrupting the data being transmitted.
+<br>
+<br>
+![Interleaving_img](./img/Interleaving.jpg)
 <br>
 <br>
 
