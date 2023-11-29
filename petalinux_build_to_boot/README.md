@@ -27,7 +27,7 @@ sudo umount /dev/sdc
 ```bash
 sudo fdisk -l
 ```
-&emsp;+ This will display all the storage disks that you have on your device. Make note of the one that is your SD card. This can be done by matching the storage sizes.<br/>
++ This will display all the storage disks that you have on your device. Make note of the one that is your SD card. This can be done by matching the storage sizes.<br/>
 
 **4.** Enter the following command and press enter (for this demonstration, I will be called the SD card *sdc1*):<br/>
 ```bash
@@ -50,14 +50,14 @@ sudo fdisk /dev/sdc
 **11.** Enter *p* <br/>
 
 **12.** Enter *w* <br/>
-&emsp;+ This will create the final partition which will take up the remainder of the storage on the SD card.<br/>
++ This will create the final partition which will take up the remainder of the storage on the SD card.<br/>
 
 **13.** Now we can format each partition. The boot will be formatted as Fat32 with the following command: <br/>
 ```bash
 sudo mkfs.vfat /dev/sdc1
 ```
-&emsp;+ NOTE: This may have change the SD card's disk name, make sure to use the correct one!<br/>
-&emsp;+ NOTE 2: You can simply look for the partition sizes you just made.<br/>
++ NOTE: This may have change the SD card's disk name, make sure to use the correct one!<br/>
++ NOTE 2: You can simply look for the partition sizes you just made.<br/>
 
 **14.** Finally, we format the file system partition with:<br/>
 ```bash
