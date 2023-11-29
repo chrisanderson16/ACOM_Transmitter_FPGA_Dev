@@ -15,7 +15,7 @@ The most important thing to remember when creating partitions for the Petalinux 
 #### This will follow the process through the terminal, you opt to use the Ubuntu Disk Manager Application, or another equivalent application if you wish.
 
 **1.** Insert the microSD card into your device. <br>
-&emsp;+ MicroSD card may require adapter.
+&emsp; + MicroSD card may require adapter.
 &emsp;+ Ensure it is **NOT** on Read-Only mode. This is typically a slider on the side.
 
 **2.** Unmount the SD card with the following command in the terminal. <br>
