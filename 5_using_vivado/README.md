@@ -182,10 +182,18 @@ Vitis is another Integrated Development Environment (IDE). If you have never use
 
 <br>
 
----
-
 ### Congrats, you have just built your first project with Vivado and Vitis!
 
 ---
 
-### NOTE: Vivado project should look similar to the [Adderwrapper2.zip](./Adderwrapper2.zip)
+###### NOTE: Vivado project should look similar to the [Adderwrapper2.zip](./Adderwrapper2.zip)
+
+---
+
+### Possible issues with Vivado/Vitus
+An error occurs in Vitis when building a Vivado project with a custom AXI4 peripheral using Windows OS and Vitis/Vivado 2022.1. This error can be fixed by modifying the custom IP makefile as shown in the figure below. The custom IP makefile can be found by navigating to IP_Repo > IP_Name > drivers > IP_Name > src. After changing the makefile, the IP must be re-packaged in Vivado and the project re-exported to Vitis.   
+<br>
+
+![error](../img/Pot_errors_vivado.png)
+
+A detailed description can be found [here](https://support.xilinx.com/s/article/000034569?language=en_US). 
