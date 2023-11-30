@@ -212,7 +212,7 @@ Vitis is another Integrated Development Environment (IDE). If you have never use
 
 ---
 
-###### NOTE: Vivado project should look similar to the [Adderwrapper2.zip](./Adderwrapper2.zip)
+###### NOTE: Vivado project should look similar to the [Adder.zip](./Adder.zip)
 
 ---
 
