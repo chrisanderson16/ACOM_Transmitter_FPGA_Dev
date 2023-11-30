@@ -32,7 +32,10 @@ This document outlines the different files that make up the Transmitter_TL proje
 <br/>
 Most of the information in this table has been obtained from the [Acoustic B-FSK Link Design report](./Acoustic_B-FSK_Link_design_report.pdf) and online resources. Please make reference to that document for a more detailed explanation of all VHDL files.
 
-
+### CustomAmplifierBoardPres.pdf
+This document explains and shows how the amplifier board works that will be used to modulate the signal of the completed JANUS packet + Cargo packet. This is necessary for the transducer as the signal from the FPGA output is not nearly strong enough as it must be. 
+<br>
+It also shows the filter board. It does a little explanation of the both of them as to what they are doing with the FPGA output. It is the ADC so that the transmission chain can output an acoustic wave via the transducer.
 
 
 
