@@ -1,1 +1,0 @@
-cmd_/home/pi/driverCreation/LinuxDriver-hello-world/Module.symvers :=  sed 's/ko$$/o/'  /home/pi/driverCreation/LinuxDriver-hello-world/modules.order | scripts/mod/modpost -m -a    -o /home/pi/driverCreation/LinuxDriver-hello-world/Module.symvers -e -i Module.symvers -T - 

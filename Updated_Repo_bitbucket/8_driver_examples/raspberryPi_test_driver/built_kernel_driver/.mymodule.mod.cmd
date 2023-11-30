@@ -1,1 +1,0 @@
-cmd_/home/pi/driverCreation/LinuxDriver-hello-world/mymodule.mod := printf '%s\n'   mymodule.o | awk '!x[$$0]++ { print("/home/pi/driverCreation/LinuxDriver-hello-world/"$$0) }' > /home/pi/driverCreation/LinuxDriver-hello-world/mymodule.mod
