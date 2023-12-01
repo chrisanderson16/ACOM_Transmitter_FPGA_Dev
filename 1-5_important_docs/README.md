@@ -38,5 +38,6 @@ This document explains and shows how the amplifier board works that will be used
 It also shows the filter board. It does a little explanation of the both of them as to what they are doing with the FPGA output. It is the ADC so that the transmission chain can output an acoustic wave via the transducer.
 
 
-
+### Data sheets
+The data sheets for the transducer, filter board and TR ORCA are in the datasheets directory. These are important to note as they define the "hard" hardware constraints of the project.
 
